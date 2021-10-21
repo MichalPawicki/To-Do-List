@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragmentSplash">
 
     <fragment
+        tools:layout = "@layout/fragment_splash"
         android:id="@+id/fragmentSplash"
         android:name="michal.pawicki.todolistapp.FragmentSplash"
         android:label="FragmentSplash" >
@@ -15,5 +17,21 @@
     <fragment
         android:id="@+id/fragmentItems"
         android:name="michal.pawicki.todolistapp.FragmentItems"
-        android:label="FragmentItems" />
+        android:label="FragmentItems" >
+        <action
+            android:id="@+id/action_fragmentItems_to_fragmentAddItem"
+            app:destination="@id/fragmentAddItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentAddItem"
+        android:name="michal.pawicki.todolistapp.FragmentAddItem"
+        android:label="FragmentAddItem" >
+        <action
+            android:id="@+id/action_fragmentAddItem_to_fragmentItemItem"
+            app:destination="@id/fragmentItemItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentItemItem"
+        android:name="michal.pawicki.todolistapp.FragmentItemItem"
+        android:label="FragmentItemItem" />
 </navigation>

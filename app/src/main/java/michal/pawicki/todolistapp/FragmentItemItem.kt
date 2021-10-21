@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import michal.pawicki.todolistapp.databinding.FragmentSplashBinding
+import michal.pawicki.todolistapp.databinding.FragmentItemItemBinding
+
 
 class FragmentItemItem: Fragment() {
 
-    private var fragmentItemItem: FragmentSplashBinding? = null
+    private var fragmentItemItem: FragmentItemItemBinding? = null
     private val binding get() = fragmentItemItem!!
 
     override fun onCreateView(
@@ -17,17 +18,13 @@ class FragmentItemItem: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentItemItem = FragmentSplashBinding.inflate(inflater, container, false)
+        fragmentItemItem = FragmentItemItemBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-    }
+        }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentItemItem = null
     }
-}

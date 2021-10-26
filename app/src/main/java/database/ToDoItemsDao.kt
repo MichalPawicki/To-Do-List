@@ -1,4 +1,4 @@
-package BD
+package database
 
 import androidx.room.*
 
@@ -8,11 +8,11 @@ interface ToDoItemsDao {
     fun addItem(toDoItem: ToDoItem)
     @Delete
     fun deleteItem(toDoItem: ToDoItem)
-    @Query("delete from todoitems where id=:id")
+    @Query("delete from toDoItems where id=:id")
     fun deleteItem(id: Int)
     @Query("select * from toDoItems")
     fun getAllItems() : List<ToDoItem>
-    @Query( "select * from todoitems where id=:id limit 1") //zwraca jeden element
+    @Query( "select * from toDoItems where id=:id limit 1") //zwraca jeden element
     fun getItem(id: Int) : ToDoItem
     @Update
     fun updateItem(toDoItem: ToDoItem)

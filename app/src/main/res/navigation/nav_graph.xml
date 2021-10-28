@@ -15,6 +15,7 @@
             app:destination="@id/fragmentItems" />
     </fragment>
     <fragment
+        tools:layout = "@layout/fragment_items"
         android:id="@+id/fragmentItems"
         android:name="michal.pawicki.todolistapp.FragmentItems"
         android:label="FragmentItems" >
@@ -23,6 +24,7 @@
             app:destination="@id/fragmentAddItem" />
     </fragment>
     <fragment
+        tools:layout = "@layout/fragment_add_item"
         android:id="@+id/fragmentAddItem"
         android:name="michal.pawicki.todolistapp.FragmentAddItem"
         android:label="FragmentAddItem" >
@@ -31,6 +33,7 @@
             app:destination="@id/fragmentItemItem" />
     </fragment>
     <fragment
+        tools:layout = "@layout/fragment_item_item"
         android:id="@+id/fragmentItemItem"
         android:name="michal.pawicki.todolistapp.FragmentItemItem"
         android:label="FragmentItemItem" />

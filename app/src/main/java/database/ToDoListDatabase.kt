@@ -10,12 +10,12 @@ abstract class ToDoListDatabase: RoomDatabase() {
     abstract fun ToDoItemsDao(): ToDoItemsDao
 
     abstract val applicationContext: Context
-    val db = Room.databaseBuilder(
+    private val db = Room.databaseBuilder(
         applicationContext,
         ToDoListDatabase::class.java, 
         "toDoItems"
     ).build()
 
-    val toDoItemsDao = db.ToDoItemsDao()
+    private val toDoItemsDao = db.ToDoItemsDao()
     val users: List<ToDoItem> = toDoItemsDao.getAllItems()
 }

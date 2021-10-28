@@ -27,14 +27,5 @@
         tools:layout = "@layout/fragment_add_item"
         android:id="@+id/fragmentAddItem"
         android:name="michal.pawicki.todolistapp.FragmentAddItem"
-        android:label="FragmentAddItem" >
-        <action
-            android:id="@+id/action_fragmentAddItem_to_fragmentItemItem"
-            app:destination="@id/fragmentItemItem" />
-    </fragment>
-    <fragment
-        tools:layout = "@layout/fragment_item_item"
-        android:id="@+id/fragmentItemItem"
-        android:name="michal.pawicki.todolistapp.FragmentItemItem"
-        android:label="FragmentItemItem" />
+        android:label="FragmentAddItem" />
 </navigation>

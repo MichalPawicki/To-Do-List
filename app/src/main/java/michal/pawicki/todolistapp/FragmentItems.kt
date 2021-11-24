@@ -1,5 +1,6 @@
 package michal.pawicki.todolistapp
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +17,21 @@ class FragmentItems : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapters = ItemsAdapters{
+        adapters = ItemsAdapters({
             id, status->
             itemsDao().updateItemStatus(id, status)
-        }
+        },::navigateToAddItem,::showDeleteDialog)
+    }
+
+    private fun showDeleteDialog(id: Int) {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Usuwanie zadania")
+            .setMessage("Czy na pewno chcesz usunąć ten element?")
+            .setPositiveButton("Usuń", {a,b -> itemsDao().deleteItem(id)}) // Podpiąć akcje pod dialog -2 linijki kodu?
+    }
+
+    private fun navigateToAddItem(id: Int) {
+        findNavController().navigate(FragmentItemsDirections.actionFragmentItemsToFragmentAddItem(id))
     }
 
     override fun onCreateView(
@@ -38,10 +50,8 @@ class FragmentItems : Fragment() {
             adapters.updateItems(it)
         })
         binding.addItemButton.setOnClickListener{
-            findNavController().navigate(R.id.action_fragmentItems_to_fragmentAddItem)
+            navigateToAddItem(id = 0)
             }
 
         }
     }
-
-// Poczytaj o adapterach, bazach danych - wybor godzin, wyswietlanie dialogu itp.

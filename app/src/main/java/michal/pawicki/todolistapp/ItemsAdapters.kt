@@ -5,8 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import database.ToDoItem
 import michal.pawicki.todolistapp.databinding.ItemItemBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
-class ItemsAdapters(private val action: (Int, Boolean)-> Unit) : RecyclerView.Adapter<ItemsAdapters.ViewHolder>() {
+class ItemsAdapters(private val action: (Int, Boolean)-> Unit,
+                    private val editItem: (Int) -> Unit,
+                    private val deleteItem: (Int) -> Unit) : RecyclerView.Adapter<ItemsAdapters.ViewHolder>() {
     class ViewHolder(val binding: ItemItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     private val items = mutableListOf<ToDoItem>()
@@ -24,12 +28,21 @@ class ItemsAdapters(private val action: (Int, Boolean)-> Unit) : RecyclerView.Ad
         val item  = items[position]
         holder.binding.categoryTxt.text = item.title
         holder.binding.contentTxt.text = item.note
-        holder.binding.dataTxt.text = item.date.toString()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        holder.binding.dataTxt.text = dateFormat.format(item.date)
+        holder.binding.itemsStatusButton.setOnCheckedChangeListener(null)
         holder.binding.itemsStatusButton.isChecked = item.status
         holder.binding.itemsStatusButton.setOnCheckedChangeListener { _, checked ->
             if (item.status != checked){
                 action(item.id, checked)
             }
+        }
+        holder.itemView.setOnClickListener{
+            editItem(item.id)
+        }
+        holder.itemView.setOnLongClickListener {
+            deleteItem(item.id)
+            true
         }
     }
 

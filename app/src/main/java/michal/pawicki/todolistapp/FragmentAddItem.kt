@@ -1,19 +1,30 @@
 package michal.pawicki.todolistapp
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import database.ToDoItem
 import michal.pawicki.todolistapp.databinding.FragmentAddItemBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentAddItem: Fragment() {
 
+    private var cal = Calendar.getInstance()
     private var fragmentAddItem: FragmentAddItemBinding? = null
     private val binding get() = fragmentAddItem!!
+    private var itemId: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val args: FragmentAddItemArgs by navArgs()
+         itemId = args.id
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,15 +40,47 @@ class FragmentAddItem: Fragment() {
         binding.addButton.setOnClickListener {
             addItemToDb()
         }
+        val dateSetListener =
+            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                cal.set(Calendar.YEAR,year)
+                cal.set(Calendar.MONTH,monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                binding.selectDataButton.setText(dateFormat.format(cal.time))
+            }
+        binding.selectDataButton.setOnClickListener {
+            DatePickerDialog(
+                requireContext(), dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+        if (itemId > 0 ) {
+            itemsDao().getItem(itemId).observe(viewLifecycleOwner, ::fillItem)
+        }
 
+  }
+
+    private fun fillItem(toDoItem: ToDoItem) {
+        binding.addContentTxt.setText(toDoItem.title)
+        binding.addCategoryTxt.setText(toDoItem.note)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        cal.time = toDoItem.date
+        binding.selectDataButton.setText(dateFormat.format(cal.time))
     }
 
     private fun addItemToDb() {
         val title = binding.addCategoryTxt.text.toString()
         val content = binding.addContentTxt.text.toString()
-        val date = Date()
-        val item =  ToDoItem(0, title, content, date, status = false)
-        itemsDao().addItem(item)
+        val date = cal.time
+        val item =  ToDoItem(itemId, title, content, date, status = false)
+        if (itemId == 0 ) {
+            itemsDao().addItem(item)
+        }
+        else{
+            itemsDao().updateItem(item)
+        }
         findNavController().popBackStack()
     }
 }

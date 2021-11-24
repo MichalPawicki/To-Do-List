@@ -14,5 +14,3 @@ class MainActivity: AppCompatActivity() {
     }
 }
 
-//Podpiąć fragmenty, nawigacje
-//poczytać o android room

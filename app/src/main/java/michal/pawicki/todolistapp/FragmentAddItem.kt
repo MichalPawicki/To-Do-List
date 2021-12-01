@@ -8,12 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import database.ToDoItem
+import database.ToDoItemsDao
 import michal.pawicki.todolistapp.databinding.FragmentAddItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FragmentAddItem: Fragment() {
+    @Inject
+    lateinit var toDoItemsDao: ToDoItemsDao
 
     private var cal = Calendar.getInstance()
     private var fragmentAddItem: FragmentAddItemBinding? = null
@@ -57,7 +63,7 @@ class FragmentAddItem: Fragment() {
             ).show()
         }
         if (itemId > 0 ) {
-            itemsDao().getItem(itemId).observe(viewLifecycleOwner, ::fillItem)
+            toDoItemsDao.getItem(itemId).observe(viewLifecycleOwner, ::fillItem)
         }
 
   }
@@ -76,10 +82,10 @@ class FragmentAddItem: Fragment() {
         val date = cal.time
         val item =  ToDoItem(itemId, title, content, date, status = false)
         if (itemId == 0 ) {
-            itemsDao().addItem(item)
+            toDoItemsDao.addItem(item)
         }
         else{
-            itemsDao().updateItem(item)
+            toDoItemsDao.updateItem(item)
         }
         findNavController().popBackStack()
     }

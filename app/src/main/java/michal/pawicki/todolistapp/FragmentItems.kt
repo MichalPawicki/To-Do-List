@@ -7,9 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
+import database.ToDoItemsDao
 import michal.pawicki.todolistapp.databinding.FragmentItemsBinding
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FragmentItems : Fragment() {
+    @Inject
+    lateinit var toDoItemsDao: ToDoItemsDao
 
     private var fragmentItems: FragmentItemsBinding? = null
     private val binding get() = fragmentItems!!
@@ -19,7 +25,7 @@ class FragmentItems : Fragment() {
         super.onCreate(savedInstanceState)
         adapters = ItemsAdapters({
             id, status->
-            itemsDao().updateItemStatus(id, status)
+            toDoItemsDao.updateItemStatus(id, status)
         },::navigateToAddItem,::showDeleteDialog)
     }
 
@@ -27,7 +33,7 @@ class FragmentItems : Fragment() {
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle("Usuwanie zadania")
             .setMessage("Czy na pewno chcesz usunąć ten element?")
-            .setPositiveButton("Usuń", {a,b -> itemsDao().deleteItem(id)}) // Podpiąć akcje pod dialog -2 linijki kodu?
+            .setPositiveButton("Usuń") { a, b -> toDoItemsDao.deleteItem(id) } // Podpiąć akcje pod dialog -2 linijki kodu?
     }
 
     private fun navigateToAddItem(id: Int) {
@@ -46,7 +52,7 @@ class FragmentItems : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.itemsList.adapter = adapters
-        itemsDao().observeAllItems().observe(viewLifecycleOwner, {
+        toDoItemsDao.observeAllItems().observe(viewLifecycleOwner, {
             adapters.updateItems(it)
         })
         binding.addItemButton.setOnClickListener{
@@ -55,3 +61,5 @@ class FragmentItems : Fragment() {
 
         }
     }
+
+

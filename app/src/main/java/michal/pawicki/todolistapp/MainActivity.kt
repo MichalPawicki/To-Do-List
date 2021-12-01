@@ -2,8 +2,10 @@ package michal.pawicki.todolistapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import michal.pawicki.todolistapp.databinding.ActivityMainBinding
 
+@AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

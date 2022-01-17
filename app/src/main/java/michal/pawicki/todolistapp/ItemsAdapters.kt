@@ -1,5 +1,6 @@
 package michal.pawicki.todolistapp
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ class ItemsAdapters(private val action: (Int, Boolean)-> Unit,
     class ViewHolder(val binding: ItemItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     private val items = mutableListOf<ToDoItem>()
+    @SuppressLint("NotifyDataSetChanged")
     fun updateItems(items: List<ToDoItem>){
         this.items.clear()
         this.items.addAll(items)

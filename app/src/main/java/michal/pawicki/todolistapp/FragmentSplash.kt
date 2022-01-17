@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import michal.pawicki.todolistapp.databinding.FragmentSplashBinding
 
@@ -12,6 +13,7 @@ class FragmentSplash : Fragment() {
 
     private var fragmentSplash: FragmentSplashBinding? = null
     private val binding get() = fragmentSplash!!
+    private val viewModel: SplashViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,10 +26,17 @@ class FragmentSplash : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.navigateLiveData.observe(viewLifecycleOwner, ::handleNavigation) // <- Referencja do funkcji
         binding.startText.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentSplash_to_fragmentItems)
+            viewModel.navigateNext()
         }
 
+    }
+
+    private fun handleNavigation(goNext: Boolean) {
+        if (goNext){
+            findNavController().navigate(R.id.action_fragmentSplash_to_fragmentItems)
+        }
     }
 
 }

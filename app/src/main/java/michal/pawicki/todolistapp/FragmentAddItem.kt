@@ -26,6 +26,7 @@ class FragmentAddItem: Fragment() {
     private val binding get() = fragmentAddItem!!
     private var itemId: Int = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args: FragmentAddItemArgs by navArgs()
@@ -40,7 +41,7 @@ class FragmentAddItem: Fragment() {
         fragmentAddItem = FragmentAddItemBinding.inflate(inflater, container, false)
         return binding.root
     }
-
+// -------------------------------Ustawianie kalendarza --------------------------------------------
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addButton.setOnClickListener {
@@ -52,7 +53,7 @@ class FragmentAddItem: Fragment() {
                 cal.set(Calendar.MONTH,monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                binding.selectDataButton.setText(dateFormat.format(cal.time))
+                binding.selectDataButton.text = dateFormat.format(cal.time)
             }
         binding.selectDataButton.setOnClickListener {
             DatePickerDialog(
@@ -73,7 +74,7 @@ class FragmentAddItem: Fragment() {
         binding.addCategoryTxt.setText(toDoItem.note)
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         cal.time = toDoItem.date
-        binding.selectDataButton.setText(dateFormat.format(cal.time))
+        binding.selectDataButton.text = dateFormat.format(cal.time)
     }
 
     private fun addItemToDb() {

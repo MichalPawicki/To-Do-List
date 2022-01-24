@@ -39,6 +39,7 @@ class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
             .setTitle("Usuwanie zadania")
             .setMessage("Czy na pewno chcesz usunąć ten element?")
             .setPositiveButton("Usuń") { a, b -> toDoItemsDao.deleteItem(id) } // Podpiąć akcje pod dialog -2 linijki kodu?
+            .setNegativeButton("Nie"){ a,b -> toDoItemsDao.observeAllItems()}
         dialog.show()
     }
     // --------------------------------------------------------------------------------------------------------------

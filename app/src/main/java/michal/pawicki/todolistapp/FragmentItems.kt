@@ -10,16 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import database.ToDoItemsDao
 import kotlinx.coroutines.flow.collectLatest
 import michal.pawicki.todolistapp.databinding.FragmentItemsBinding
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
-    @Inject
-    lateinit var toDoItemsDao: ToDoItemsDao
 
     private var fragmentItems: FragmentItemsBinding? = null
     private val binding get() = fragmentItems!!
@@ -28,18 +24,15 @@ class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapters = ItemsAdapters({
-            id, status->
-            toDoItemsDao.updateItemStatus(id, status)
-        }, viewModel::openDetails,::showDeleteDialog)
+
     }
     // -------------------------------Ustawianie usunięcia z bazy danych --------------------------------------------
     private fun showDeleteDialog(id: Int) {
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle("Usuwanie zadania")
             .setMessage("Czy na pewno chcesz usunąć ten element?")
-            .setPositiveButton("Usuń") { a, b -> toDoItemsDao.deleteItem(id) } // Podpiąć akcje pod dialog -2 linijki kodu?
-            .setNegativeButton("Nie"){ a,b -> toDoItemsDao.observeAllItems()}
+            .setPositiveButton("Usuń") { _, _ -> viewModel.deleteItem(id) } // Podpiąć akcje pod dialog -2 linijki kodu?
+            .setNegativeButton("Nie"){ _, _ -> {} }
         dialog.show()
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -59,11 +52,15 @@ class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapters = ItemsAdapters({
+                id, status-> viewModel.uptadeItemStatus(id, status)
+        }, viewModel::openDetails,::showDeleteDialog)
+
         lifecycleScope.launchWhenStarted {
             viewModel.destination.collectLatest { handleNavigation(it) }
         }
         binding.itemsList.adapter = adapters
-        toDoItemsDao.observeAllItems().observe(viewLifecycleOwner, {
+        viewModel.allItems.observe(viewLifecycleOwner, {
             adapters.updateItems(it)
         })
         binding.addItemButton.setOnClickListener{

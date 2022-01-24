@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface ToDoItemsDao {
     @Insert
-    fun addItem(toDoItem: ToDoItem)
+    suspend fun addItem(toDoItem: ToDoItem)
     @Delete
     fun deleteItem(toDoItem: ToDoItem)
     @Query("delete from toDoItems where id=:id")

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,20 +19,19 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FragmentAddItem: Fragment() {
-    @Inject
-    lateinit var toDoItemsDao: ToDoItemsDao
+class FragmentAddItem : Fragment() {
 
     private var cal = Calendar.getInstance()
     private var fragmentAddItem: FragmentAddItemBinding? = null
     private val binding get() = fragmentAddItem!!
     private var itemId: Int = 0
+    private val viewModel: AddItemViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args: FragmentAddItemArgs by navArgs()
-         itemId = args.id
+        itemId = args.id
     }
 
     override fun onCreateView(
@@ -41,7 +42,8 @@ class FragmentAddItem: Fragment() {
         fragmentAddItem = FragmentAddItemBinding.inflate(inflater, container, false)
         return binding.root
     }
-// -------------------------------Ustawianie kalendarza --------------------------------------------
+
+    // -------------------------------Ustawianie kalendarza --------------------------------------------
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addButton.setOnClickListener {
@@ -49,9 +51,9 @@ class FragmentAddItem: Fragment() {
         }
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                cal.set(Calendar.YEAR,year)
-                cal.set(Calendar.MONTH,monthOfYear)
-                cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 binding.selectDataButton.text = dateFormat.format(cal.time)
             }
@@ -63,11 +65,11 @@ class FragmentAddItem: Fragment() {
                 cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
-        if (itemId > 0 ) {
-            toDoItemsDao.getItem(itemId).observe(viewLifecycleOwner, ::fillItem)
+        if (itemId > 0) {
+            viewModel.item.observe(viewLifecycleOwner, ::fillItem)
         }
 
-  }
+    }
 
     private fun fillItem(toDoItem: ToDoItem) {
         binding.addContentTxt.setText(toDoItem.title)
@@ -81,13 +83,14 @@ class FragmentAddItem: Fragment() {
         val title = binding.addCategoryTxt.text.toString()
         val content = binding.addContentTxt.text.toString()
         val date = cal.time
-        val item =  ToDoItem(itemId, title, content, date, status = false)
-        if (itemId == 0 ) {
-            toDoItemsDao.addItem(item)
+        val item = ToDoItem(itemId, title, content, date, status = false)
+        lifecycleScope.launchWhenStarted {
+            if (itemId == 0) {
+                toDoItemsDao.addItem(item)
+            } else {
+                toDoItemsDao.updateItem(item)
+            }
+            findNavController().popBackStack()
         }
-        else{
-            toDoItemsDao.updateItem(item)
-        }
-        findNavController().popBackStack()
     }
 }

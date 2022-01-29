@@ -26,5 +26,3 @@ class DataBaseModule {
     @Provides
     fun provideToDoItemsDao(db: ToDoListDatabase) = db.ToDoItemsDao()
 }
-
-// życie aktywności i fragmentów, mvvm, hilt, dagger2, livedata, coin, courtines, RXJava, jetpack compose - poczytaj o tym - naucz się, spróbuj dodać viewmodel + ustawić usunięcie

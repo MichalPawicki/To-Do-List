@@ -18,7 +18,7 @@ interface ToDoItemsDao {
     @Query( "select * from toDoItems where id=:id limit 1") //zwraca jeden element
     fun getItem(id: Int) : LiveData<ToDoItem>
     @Update
-    fun updateItem(toDoItem: ToDoItem)
+    fun updateItem(toDoItem: LiveData<List<ToDoItem>>)
     @Query("update toDoItems set status = :status where id = :id")
     fun updateItemStatus(id: Int, status: Boolean)
 }

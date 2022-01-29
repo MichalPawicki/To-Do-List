@@ -86,11 +86,12 @@ class FragmentAddItem : Fragment() {
         val item = ToDoItem(itemId, title, content, date, status = false)
         lifecycleScope.launchWhenStarted {
             if (itemId == 0) {
-                toDoItemsDao.addItem(item)
+                viewModel.addItem(item)
             } else {
-                toDoItemsDao.updateItem(item)
+                viewModel.updateItem()
             }
             findNavController().popBackStack()
         }
     }
 }
+

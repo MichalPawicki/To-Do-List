@@ -24,6 +24,7 @@ class FragmentSplash : Fragment() {
         return binding.root
     }
 
+    // -------------------------------przejście fragmentSplash do fragmentItems  --------------------------------------------
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.navigateLiveData.observe(viewLifecycleOwner, ::handleNavigation) // <- Referencja do funkcji

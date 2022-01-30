@@ -7,16 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import database.ToDoItem
-import database.ToDoItemsDao
 import michal.pawicki.todolistapp.databinding.FragmentAddItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
+import kotlin.reflect.KFunction1
 
 @AndroidEntryPoint
 class FragmentAddItem : Fragment() {
@@ -94,4 +95,10 @@ class FragmentAddItem : Fragment() {
         }
     }
 }
+
+
+
+
+
+
 

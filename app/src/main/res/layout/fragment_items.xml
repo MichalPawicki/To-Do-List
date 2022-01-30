@@ -11,7 +11,7 @@
         android:id="@+id/itemsList"
         android:layout_width="409dp"
         android:layout_height="729dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
         android:layout_marginBottom="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"

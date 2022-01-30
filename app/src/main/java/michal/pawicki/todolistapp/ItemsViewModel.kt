@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// -------------------------------viewModel w fragmentItems --------------------------------------
+
 @HiltViewModel
 class ItemsViewModel @Inject constructor(private val toDoItemsDao: ToDoItemsDao): ViewModel() {
     private val _destination = Channel<ItemsDestination>()

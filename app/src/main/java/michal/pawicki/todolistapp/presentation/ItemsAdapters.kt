@@ -1,10 +1,10 @@
-package michal.pawicki.todolistapp
+package michal.pawicki.todolistapp.presentation
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import database.ToDoItem
+import michal.pawicki.todolistapp.data.ToDoItem
 import michal.pawicki.todolistapp.databinding.ItemItemBinding
 import java.text.SimpleDateFormat
 import java.util.*

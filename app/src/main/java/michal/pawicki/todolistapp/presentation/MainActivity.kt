@@ -1,4 +1,4 @@
-package michal.pawicki.todolistapp
+package michal.pawicki.todolistapp.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

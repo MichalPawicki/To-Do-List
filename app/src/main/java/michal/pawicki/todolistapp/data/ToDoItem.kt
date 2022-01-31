@@ -1,4 +1,4 @@
-package database
+package michal.pawicki.todolistapp.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

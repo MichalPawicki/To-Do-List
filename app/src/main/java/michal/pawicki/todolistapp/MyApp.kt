@@ -2,7 +2,7 @@ package michal.pawicki.todolistapp
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import database.ToDoItemsDao
+import michal.pawicki.todolistapp.data.ToDoItemsDao
 import javax.inject.Inject
 
 @HiltAndroidApp

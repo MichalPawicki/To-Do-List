@@ -1,4 +1,4 @@
-package di
+package michal.pawicki.todolistapp.di
 
 import android.content.Context
 import androidx.room.Room
@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import database.ToDoListDatabase
+import michal.pawicki.todolistapp.data.ToDoListDatabase
 
 @InstallIn(SingletonComponent::class)
 @Module

@@ -1,4 +1,4 @@
-package michal.pawicki.todolistapp
+package michal.pawicki.todolistapp.presentation
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -7,17 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import database.ToDoItem
+import michal.pawicki.todolistapp.data.ToDoItem
 import michal.pawicki.todolistapp.databinding.FragmentAddItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.reflect.KFunction1
 
 @AndroidEntryPoint
 class FragmentAddItem : Fragment() {
@@ -66,15 +62,14 @@ class FragmentAddItem : Fragment() {
                 cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
-        if (itemId > 0) {
-            viewModel.item.observe(viewLifecycleOwner, ::fillItem)
-        }
+        viewModel.item.observe(viewLifecycleOwner, ::fillItem)
+        viewModel.setId(itemId)
 
     }
 
     private fun fillItem(toDoItem: ToDoItem) {
-        binding.addContentTxt.setText(toDoItem.title)
-        binding.addCategoryTxt.setText(toDoItem.note)
+        binding.addCategoryTxt.setText(toDoItem.title)
+        binding.addContentTxt.setText(toDoItem.note)
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         cal.time = toDoItem.date
         binding.selectDataButton.text = dateFormat.format(cal.time)
@@ -85,14 +80,9 @@ class FragmentAddItem : Fragment() {
         val content = binding.addContentTxt.text.toString()
         val date = cal.time
         val item = ToDoItem(itemId, title, content, date, status = false)
-        lifecycleScope.launchWhenStarted {
-            if (itemId == 0) {
-                viewModel.addItem(item)
-            } else {
-                viewModel.updateItem()
-            }
-            findNavController().popBackStack()
-        }
+        viewModel.addItemPressed(item)
+        findNavController().popBackStack()
+
     }
 }
 

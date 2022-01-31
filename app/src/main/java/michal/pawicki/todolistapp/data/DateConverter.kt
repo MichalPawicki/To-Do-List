@@ -1,4 +1,4 @@
-package database
+package michal.pawicki.todolistapp.data
 
 import androidx.room.TypeConverter
 import java.util.*

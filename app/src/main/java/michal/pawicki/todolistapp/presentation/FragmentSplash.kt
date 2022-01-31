@@ -1,4 +1,4 @@
-package michal.pawicki.todolistapp
+package michal.pawicki.todolistapp.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import michal.pawicki.todolistapp.R
 import michal.pawicki.todolistapp.databinding.FragmentSplashBinding
 
 class FragmentSplash : Fragment() {

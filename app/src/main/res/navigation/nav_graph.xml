@@ -8,7 +8,7 @@
     <fragment
         tools:layout = "@layout/fragment_splash"
         android:id="@+id/fragmentSplash"
-        android:name="michal.pawicki.todolistapp.FragmentSplash"
+        android:name="michal.pawicki.todolistapp.presentation.FragmentSplash"
         android:label="FragmentSplash" >
         <action
             android:id="@+id/action_fragmentSplash_to_fragmentItems"
@@ -17,7 +17,7 @@
     <fragment
         tools:layout = "@layout/fragment_items"
         android:id="@+id/fragmentItems"
-        android:name="michal.pawicki.todolistapp.FragmentItems"
+        android:name="michal.pawicki.todolistapp.presentation.FragmentItems"
         android:label="FragmentItems" >
         <action
             android:id="@+id/action_fragmentItems_to_fragmentAddItem"
@@ -26,7 +26,7 @@
     <fragment
         tools:layout = "@layout/fragment_add_item"
         android:id="@+id/fragmentAddItem"
-        android:name="michal.pawicki.todolistapp.FragmentAddItem"
+        android:name="michal.pawicki.todolistapp.presentation.FragmentAddItem"
         android:label="FragmentAddItem" >
         <argument
             android:name="id"

@@ -1,4 +1,4 @@
-package michal.pawicki.todolistapp
+package michal.pawicki.todolistapp.presentation
 
 import android.app.AlertDialog
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package michal.pawicki.todolistapp
+package michal.pawicki.todolistapp.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,7 +1,7 @@
 package michal.pawicki.todolistapp.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ToDoItemsDao {
@@ -14,9 +14,9 @@ interface ToDoItemsDao {
     @Query("select * from toDoItems")
     fun getAllItems() : List<ToDoItem>
     @Query("select * from toDoItems")
-    fun observeAllItems() : LiveData<List<ToDoItem>>
+    fun observeAllItems() : Flow<List<ToDoItem>>
     @Query( "select * from toDoItems where id=:id limit 1") //zwraca jeden element
-    fun getItem(id: Int) : LiveData<ToDoItem>
+    fun getItem(id: Int) : Flow<ToDoItem>
     @Update
     suspend fun updateItem(toDoItem: ToDoItem)
     @Query("update toDoItems set status = :status where id = :id")

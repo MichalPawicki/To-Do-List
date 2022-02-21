@@ -1,6 +1,6 @@
 package michal.pawicki.todolistapp.domain
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 
 interface AplicationRepository {
@@ -13,9 +13,9 @@ interface AplicationRepository {
 
     suspend fun getAllItems() : List<ToDoItemDomain>
 
-    fun observeAllItems() : LiveData<List<ToDoItemDomain>>
+    fun observeAllItems() : Flow<List<ToDoItemDomain>>
 
-    fun getItem(id: Int) : LiveData<ToDoItemDomain>
+    fun getItem(id: Int) : Flow<ToDoItemDomain>
 
     suspend fun updateItem(toDoItem: ToDoItemDomain)
 

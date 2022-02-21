@@ -20,7 +20,7 @@ class ItemsViewModel @Inject constructor(private val repository: AplicationRepos
     private val _destination = Channel<ItemsDestination>()
     val destination = _destination.receiveAsFlow()
     private val _allItems= repository.observeAllItems().asLiveData()   //3 różne modele
-    val allItems: LiveData<List<ToDoItem>> = _allItems
+    val allItems: LiveData<List<ToDoItem>> = _allItems // musimy dotrzeć do Livedata
 
     fun openDetails(id: Int){
         viewModelScope.launch {

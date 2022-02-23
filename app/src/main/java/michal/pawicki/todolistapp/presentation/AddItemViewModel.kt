@@ -5,29 +5,39 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import michal.pawicki.todolistapp.data.ToDoItem
-import michal.pawicki.todolistapp.data.ToDoItemsDao
 import kotlinx.coroutines.launch
+import michal.pawicki.todolistapp.domain.AplicationRepository
+import michal.pawicki.todolistapp.domain.ToDoItemDomain
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 // -------------------------------viewModel w fragmentAddItem --------------------------------------
 
 @HiltViewModel
-class AddItemViewModel @Inject constructor(private val toDoItemsDao: ToDoItemsDao):  ViewModel() {
+class AddItemViewModel @Inject constructor(private val repository: AplicationRepository):  ViewModel() {
 
-    private val itemPublisher = MutableLiveData<ToDoItem>()
-    val item: LiveData<ToDoItem> = itemPublisher
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    private val itemPublisher = MutableLiveData<ToDoItemUi>()
+    val item: LiveData<ToDoItemUi> = itemPublisher
+    private var id: Int = 0
 
     fun setId (id: Int) {
-        itemPublisher.value = toDoItemsDao.getItemSimply(id)
+        this.id = id
+        viewModelScope.launch{
+            val item = repository.getItemSimply(id) ?: return@launch
+            val itemUi = ToDoItemUi(item.id, item.title, item.note, dateFormat.format(item.date), item.date, item.status)
+            itemPublisher.value = itemUi
+        }
     }
 
-    fun addItemPressed(newItem: ToDoItem) {
+    fun addItemPressed(title: String, content: String, date: Date) {
         viewModelScope.launch {
-            if (newItem.id == 0) {
-                toDoItemsDao.addItem(newItem)
+            val itemDomain = ToDoItemDomain(id, title, content, date, status = false)
+            if (id == 0) {
+                repository.addItem(itemDomain)
             } else {
-                toDoItemsDao.updateItem(newItem)
+                repository.updateItem(itemDomain)
             }
         }
 

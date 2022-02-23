@@ -7,9 +7,9 @@ interface AplicationRepository {
 
     suspend fun addItem(toDoItem: ToDoItemDomain)
 
-    fun deleteItem(toDoItem: ToDoItemDomain)
+    suspend fun deleteItem(toDoItem: ToDoItemDomain)
 
-    fun deleteItem(id: Int)
+    suspend fun deleteItem(id: Int)
 
     suspend fun getAllItems() : List<ToDoItemDomain>
 
@@ -19,8 +19,8 @@ interface AplicationRepository {
 
     suspend fun updateItem(toDoItem: ToDoItemDomain)
 
-    fun updateItemStatus(id: Int, status: Boolean)
+    suspend fun updateItemStatus(id: Int, status: Boolean)
 
-    fun getItemSimply(id: Int) : ToDoItemDomain
+    suspend fun getItemSimply(id: Int) : ToDoItemDomain?
 }
 

@@ -15,13 +15,13 @@ class AplicationRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun deleteItem(toDoItem: ToDoItemDomain) {
+    override suspend fun deleteItem(toDoItem: ToDoItemDomain) {
         dao.deleteItem(
             toDoItem.toDB()
         )
     }
 
-    override fun deleteItem(id: Int) {
+    override suspend fun deleteItem(id: Int) {
         dao.deleteItem(id)
     }
 
@@ -48,12 +48,12 @@ class AplicationRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun updateItemStatus(id: Int, status: Boolean) {
+    override suspend fun updateItemStatus(id: Int, status: Boolean) {
         dao.updateItemStatus(id, status)
     }
 
-    override fun getItemSimply(id: Int): ToDoItemDomain {
-        return dao.getItemSimply(id).toDomain()
+    override suspend fun getItemSimply(id: Int): ToDoItemDomain? {
+        return dao.getItemSimply(id)?.toDomain()
     }
 
     private fun ToDoItemDomain.toDB() = ToDoItem(

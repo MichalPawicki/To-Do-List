@@ -4,19 +4,16 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import michal.pawicki.todolistapp.data.ToDoItem
 import michal.pawicki.todolistapp.databinding.ItemItemBinding
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ItemsAdapters(private val action: (Int, Boolean)-> Unit,
                     private val editItem: (Int) -> Unit,
                     private val deleteItem: (Int) -> Unit) : RecyclerView.Adapter<ItemsAdapters.ViewHolder>() {
     class ViewHolder(val binding: ItemItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private val items = mutableListOf<ToDoItem>()
+    private val items = mutableListOf<ToDoItemUi>()
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(items: List<ToDoItem>){
+    fun updateItems(items: List<ToDoItemUi>){
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -30,8 +27,7 @@ class ItemsAdapters(private val action: (Int, Boolean)-> Unit,
         val item  = items[position]
         holder.binding.categoryTxt.text = item.title
         holder.binding.contentTxt.text = item.note
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        holder.binding.dataTxt.text = dateFormat.format(item.date)
+        holder.binding.dataTxt.text = item.dateTxt
         holder.binding.itemsStatusButton.setOnCheckedChangeListener(null)
         holder.binding.itemsStatusButton.isChecked = item.status
         holder.binding.itemsStatusButton.setOnCheckedChangeListener { _, checked ->

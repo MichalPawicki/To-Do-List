@@ -26,16 +26,16 @@ class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
         super.onCreate(savedInstanceState)
 
     }
-    // -------------------------------Ustawianie usunięcia z bazy danych --------------------------------------------
+    // -------------------------------Ustawianie usunięcia z bazy danych ---------------------------
     private fun showDeleteDialog(id: Int) {
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle("Usuwanie zadania")
             .setMessage("Czy na pewno chcesz usunąć ten element?")
-            .setPositiveButton("Usuń") { _, _ -> viewModel.deleteItem(id) } // Podpiąć akcje pod dialog -2 linijki kodu?
+            .setPositiveButton("Usuń") { _, _ -> viewModel.deleteItem(id) }
             .setNegativeButton("Nie"){ _, _ -> {} }
         dialog.show()
     }
-    // --------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     private fun navigateToAddItem(id: Int) {
         findNavController().navigate(FragmentItemsDirections.actionFragmentItemsToFragmentAddItem(id))
     }

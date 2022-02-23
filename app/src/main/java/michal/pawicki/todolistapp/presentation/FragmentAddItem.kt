@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import michal.pawicki.todolistapp.data.ToDoItem
 import michal.pawicki.todolistapp.databinding.FragmentAddItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -67,7 +66,7 @@ class FragmentAddItem : Fragment() {
 
     }
 
-    private fun fillItem(toDoItem: ToDoItem) {
+    private fun fillItem(toDoItem: ToDoItemUi) {
         binding.addCategoryTxt.setText(toDoItem.title)
         binding.addContentTxt.setText(toDoItem.note)
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -79,8 +78,7 @@ class FragmentAddItem : Fragment() {
         val title = binding.addCategoryTxt.text.toString()
         val content = binding.addContentTxt.text.toString()
         val date = cal.time
-        val item = ToDoItem(itemId, title, content, date, status = false)
-        viewModel.addItemPressed(item)
+        viewModel.addItemPressed(title, content, date )
         findNavController().popBackStack()
 
     }

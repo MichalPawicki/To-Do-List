@@ -44,4 +44,4 @@ class AddItemViewModel @Inject constructor(private val repository: AplicationRep
     }
 }
 
-// Zasady SOLID
+// Zasady SOLID, poucz się!

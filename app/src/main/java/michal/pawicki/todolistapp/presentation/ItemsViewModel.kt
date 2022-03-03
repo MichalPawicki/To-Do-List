@@ -16,31 +16,46 @@ import javax.inject.Inject
 
 // -------------------------------viewModel w fragmentItems --------------------------------------
 
-@HiltViewModel
-class ItemsViewModel @Inject constructor(private val repository: AplicationRepository): ViewModel() {
+@HiltViewModel  // Wstrzyknięcie Hilta
+class ItemsViewModel @Inject constructor(private val repository: AplicationRepository) :
+    ViewModel() {
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     private val _destination = Channel<ItemsDestination>()
     val destination = _destination.receiveAsFlow()
-    private val _allItems= repository.observeAllItems().map{
-        it.map { item -> ToDoItemUi(item.id, item.title, item.note, dateFormat.format(item.date), item.date, item.status) }
+    private val _allItems = repository.observeAllItems().map {
+        it.map { item ->
+            ToDoItemUi(
+                item.id,
+                item.title,
+                item.note,
+                dateFormat.format(item.date),
+                item.date,
+                item.status
+            )
+        }
     }.asLiveData()
     val allItems: LiveData<List<ToDoItemUi>> = _allItems
 
-    fun openDetails(id: Int){
+    // ---------------------------Otwiera okno do tworzenia powiadomień  ---------------------------
+    fun openDetails(id: Int) {
         viewModelScope.launch {
             _destination.send(ItemsDestination.Detail(id))
         }
 
     }
-    fun openNewItem(){
+
+    // -------------------------------Tworzy nowe powiadomienie  -----------------------------------
+    fun openNewItem() {
         viewModelScope.launch { _destination.send(ItemsDestination.NewItem) }
     }
 
+    // -------------------------------Modyfikuje istniejące powiadomienie  -------------------------
     fun uptadeItemStatus(id: Int, status: Boolean) {
-        viewModelScope.launch{repository.updateItemStatus(id, status)}
+        viewModelScope.launch { repository.updateItemStatus(id, status) }
     }
 
+    // -------------------------------Usuwa istniejące powiadomienie  ------------------------------
     fun deleteItem(id: Int) {
-        viewModelScope.launch{repository.deleteItem(id)}
+        viewModelScope.launch { repository.deleteItem(id) }
     }
 }

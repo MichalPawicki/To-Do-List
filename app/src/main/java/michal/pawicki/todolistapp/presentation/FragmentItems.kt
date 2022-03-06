@@ -13,9 +13,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import michal.pawicki.todolistapp.databinding.FragmentItemsBinding
 
-
+// -------------------Zmania Fragment() na ViewModels() oraz binding--------------------------------
 @AndroidEntryPoint
-class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
+class FragmentItems : Fragment() {
 
     private var fragmentItems: FragmentItemsBinding? = null
     private val binding get() = fragmentItems!!
@@ -26,20 +26,23 @@ class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
         super.onCreate(savedInstanceState)
 
     }
-    // -------------------------------Ustawianie usunięcia z bazy danych ---------------------------
+
+    // -----------------------Ustawianie widoku usunięcia z bazy danych ----------------------------
     private fun showDeleteDialog(id: Int) {
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle("Usuwanie zadania")
             .setMessage("Czy na pewno chcesz usunąć ten element?")
             .setPositiveButton("Usuń") { _, _ -> viewModel.deleteItem(id) }
-            .setNegativeButton("Nie"){ _, _ -> {} }
+            .setNegativeButton("Nie") { _, _ -> run {} }
         dialog.show()
     }
-    // ---------------------------------------------------------------------------------------------
+
+    // ------------------Funkcja w której przechodzi się z FragmentItems do FragmentAddItem---------
     private fun navigateToAddItem(id: Int) {
         findNavController().navigate(FragmentItemsDirections.actionFragmentItemsToFragmentAddItem(id))
     }
 
+    // -------------------Budowa widoku w FragmentItems  -------------------------------------------
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,13 +51,13 @@ class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
         fragmentItems = FragmentItemsBinding.inflate(inflater, container, false)
         return binding.root
     }
-// -------------------------------update do bazy danych --------------------------------------------
+// -------------------------------Update do bazy danych --------------------------------------------
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapters = ItemsAdapters({
-                id, status-> viewModel.uptadeItemStatus(id, status)
-        }, viewModel::openDetails,::showDeleteDialog)
+        adapters = ItemsAdapters({ id, status ->
+            viewModel.uptadeItemStatus(id, status)
+        }, viewModel::openDetails, ::showDeleteDialog)
 
         lifecycleScope.launchWhenStarted {
             viewModel.destination.collectLatest { handleNavigation(it) }
@@ -63,14 +66,15 @@ class FragmentItems : Fragment() {  //zmania Fragment() na ViewModels()
         viewModel.allItems.observe(viewLifecycleOwner, {
             adapters.updateItems(it)
         })
-        binding.addItemButton.setOnClickListener{
+        binding.addItemButton.setOnClickListener {
             viewModel.openNewItem()
-            }
-
         }
 
+    }
+
+    // ---Funkcja w której przechodzi się z FragmentItems do FragmentAddItem i odwrotnie------------
     private fun handleNavigation(itemsDestination: ItemsDestination?) {
-        when (itemsDestination){
+        when (itemsDestination) {
             is ItemsDestination.Detail -> navigateToAddItem(itemsDestination.id)
             ItemsDestination.NewItem -> navigateToAddItem(0)
             null -> return

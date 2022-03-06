@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import michal.pawicki.todolistapp.R
 import michal.pawicki.todolistapp.databinding.FragmentSplashBinding
 
+// -------------------Budowa widoku w FragmentSplash  ----------------------------------------------
 class FragmentSplash : Fragment() {
 
     private var fragmentSplash: FragmentSplashBinding? = null
@@ -25,18 +26,23 @@ class FragmentSplash : Fragment() {
         return binding.root
     }
 
-    // -------------------------------przejście fragmentSplash do fragmentItems  --------------------------------------------
+    // -------------------------------Przejście FragmentSplash do FragmentItems  -------------------
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.navigateLiveData.observe(viewLifecycleOwner, ::handleNavigation) // <- Referencja do funkcji
+        viewModel.navigateLiveData.observe(
+            viewLifecycleOwner,
+            ::handleNavigation // <- Referencja do funkcji
+        )
+        // -------------------Nasłuchiwanie na kliknięcie: włącza funkcje navigateNext() -----------
         binding.startText.setOnClickListener {
             viewModel.navigateNext()
         }
 
     }
 
+    // -------------------Funkcja w której przechodzi się z FragmentSplash do FragmentItems---------
     private fun handleNavigation(goNext: Boolean) {
-        if (goNext){
+        if (goNext) {
             findNavController().navigate(R.id.action_fragmentSplash_to_fragmentItems)
         }
     }

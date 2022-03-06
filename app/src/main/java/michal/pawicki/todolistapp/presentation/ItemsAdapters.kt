@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import michal.pawicki.todolistapp.databinding.ItemItemBinding
 
+// -------------------Ustawienie adapter w RecyclerView ----------------------------------------
 class ItemsAdapters(
     private val action: (Int, Boolean) -> Unit,
     private val editItem: (Int) -> Unit,
@@ -22,6 +23,7 @@ class ItemsAdapters(
         notifyDataSetChanged()
     }
 
+    // -------------------Budowa widoku z layoutu w postaci pliku XML ------------------------------
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemItemBinding.inflate(
@@ -32,6 +34,7 @@ class ItemsAdapters(
         )
     }
 
+    // -------------------Usupełnienie widoku wartościami dynamicznymi -----------------------------
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.binding.categoryTxt.text = item.title
@@ -54,7 +57,8 @@ class ItemsAdapters(
             true
         }
     }
-    // -------------------Pobiera i zwraca wielkość listy ------------------------------------------
+
+    // -------------------Pobiera i zwraca wielkość listy --------------------------------------
     override fun getItemCount(): Int {
         return items.size
     }

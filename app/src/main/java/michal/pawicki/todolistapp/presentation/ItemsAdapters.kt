@@ -34,7 +34,7 @@ class ItemsAdapters(
         )
     }
 
-    // -------------------Usupełnienie widoku wartościami dynamicznymi -----------------------------
+    // --------Usupełnienie widoku wartościami dynamicznymi - aktualizuje nasz widoki --------------
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.binding.categoryTxt.text = item.title

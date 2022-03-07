@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import michal.pawicki.todolistapp.R
 import michal.pawicki.todolistapp.databinding.FragmentSplashBinding
 
-// -------------------Budowa widoku w FragmentSplash  ----------------------------------------------
+// -------------------Budowa widoku w FragmentSplash + binding + budowa modelu ---------------------
 class FragmentSplash : Fragment() {
 
     private var fragmentSplash: FragmentSplashBinding? = null

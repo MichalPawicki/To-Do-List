@@ -14,6 +14,7 @@ import michal.pawicki.todolistapp.databinding.FragmentAddItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
+// -------------------FragmentAddItem binding + budowa viewModelu ----------------------------------
 @AndroidEntryPoint
 class FragmentAddItem : Fragment() {
 
@@ -23,23 +24,26 @@ class FragmentAddItem : Fragment() {
     private var itemId: Int = 0
     private val viewModel: AddItemViewModel by viewModels()
 
-
+    // -------------------------------Budowa nawigacji ---------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args: FragmentAddItemArgs by navArgs()
         itemId = args.id
     }
 
+    // -----------------------Budowa widoku w FragmentAddItem --------------------------------------
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentAddItem = FragmentAddItemBinding.inflate(inflater, container, false)
+        fragmentAddItem =
+            FragmentAddItemBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
-    // -------------------------------Ustawianie kalendarza --------------------------------------------
+    // -------------------------------Budowa + ustawianie kalendarza -------------------------------
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addButton.setOnClickListener {
@@ -53,6 +57,7 @@ class FragmentAddItem : Fragment() {
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 binding.selectDataButton.text = dateFormat.format(cal.time)
             }
+        // ------------------------------Nasłuchiwanie na kliknięcie kalendarza --------------------
         binding.selectDataButton.setOnClickListener {
             DatePickerDialog(
                 requireContext(), dateSetListener,
@@ -66,6 +71,8 @@ class FragmentAddItem : Fragment() {
 
     }
 
+    // --------Funkcja, która ustawia tytul, notke i kalendarz w toDoItem i bedzie------------------
+    // -----------------------mozna obserwowac w viewLifecycleOwner---------------------------------
     private fun fillItem(toDoItem: ToDoItemUi) {
         binding.addCategoryTxt.setText(toDoItem.title)
         binding.addContentTxt.setText(toDoItem.note)
@@ -74,11 +81,12 @@ class FragmentAddItem : Fragment() {
         binding.selectDataButton.text = dateFormat.format(cal.time)
     }
 
+    // ----------Funkcja, która dodaje całe powiadomienie i zwraca je do FragmentItems -------------
     private fun addItemToDb() {
         val title = binding.addCategoryTxt.text.toString()
         val content = binding.addContentTxt.text.toString()
         val date = cal.time
-        viewModel.addItemPressed(title, content, date )
+        viewModel.addItemPressed(title, content, date)
         findNavController().popBackStack()
 
     }
